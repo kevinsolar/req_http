@@ -35,14 +35,25 @@ function App() {
 		};
 
 		const res = await fetch(url, {
-         method: "POST",
-         headers: {
-            "Content-Type": "application/json"
-         },
-         body: JSON.stringify(produto),
-      });
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(produto),
+		});
 
+		//3 - Carregamento dinamico dos dados
+		/* Como não podemos adicionar diretamente o res, pois ele é um json,
+        vamos transformar ele em um objeto JavaScript, dessa forma:  */
+		const produtosAdicionados = await res.json();
 
+		/* Agora faço com que esses dados sejam acressentados ao meu setprodutos, para fazer o incremento de dados. */
+		setProdutos((prevProdutos) => [...prevProdutos, produtosAdicionados]);
+		  //Utilizamos o spred operator para "espalhar os dados anteriores" e logo após adicionar um novo, com o a variavel após a virgula
+
+      //Após a adição, vamos zerar os inputs com:
+      setNome("");
+      setPreco("");  
 	};
 
 	return (
@@ -51,8 +62,8 @@ function App() {
 
 			<ul>
 				{produtos.map((produto) => (
-					<li key={produto.key}>
-						{produto.nome} - R$: {produto.preco}
+					<li key={produto.id}>
+						{produto.nome} - R$ {produto.preco}
 					</li>
 				))}
 			</ul>
