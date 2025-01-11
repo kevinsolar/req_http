@@ -19,6 +19,16 @@
       "id": "2b7a",
       "nome": "Teclado",
       "preco": "110"
+    },
+    {
+      "id": "4230",
+      "nome": "mouse",
+      "preco": "60"
+    },
+    {
+      "id": "13aa",
+      "nome": "Cadeira",
+      "preco": "899.99"
     }
   ]
 }
