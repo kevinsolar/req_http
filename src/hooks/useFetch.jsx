@@ -18,6 +18,9 @@ export const useFetch = (url) => {
    {/* 6 - Loading */}
    const [loading, setLoading] = useState(false);
 
+   {/* 7 - Error */}
+   const [error, setError] = useState(null);
+
    //Fazendo a configuração do metodo POST automaticamente, para não precisar ficar passando toda vez que for fazer um POST.
    const httpConfig = (data, method) => {
       if (method === "POST") {
@@ -38,9 +41,15 @@ export const useFetch = (url) => {
          //6 - Loading
          setLoading(true);
 
-         const res = await fetch(url);
-         const json = await res.json();
-         setData(json);
+         try {
+            const res = await fetch(url);
+
+            const json = await res.json();
+
+            setData(json);
+         } catch (error) {
+            setError("Ocorreu um erro ao buscar os dados");
+         }
 
          setLoading(false);
       }
@@ -65,5 +74,5 @@ export const useFetch = (url) => {
       httpRequest();
    }, [config, method, url]);
 
-   return { data, httpConfig, loading };
+   return { data, httpConfig, loading, error };
 }

@@ -12,7 +12,7 @@ function App() {
    const [nome, setNome] = useState([]);
    const [preco, setPreco] = useState([]);
 
-   const { data: itens, httpConfig, loading } = useFetch(url);
+   const { data: itens, httpConfig, loading, error } = useFetch(url);
 
    //1 - Resgatando dados
    // useEffect(() => {
@@ -70,7 +70,9 @@ function App() {
 
          {loading && <p>Carregando...</p>}
 
-         {!loading && (
+         {error && <p>{error}</p>}
+
+         {!error && (
             <ul>
                {itens && itens.map((produto) => (
                   <li key={produto.id}>
@@ -100,7 +102,8 @@ function App() {
                      onChange={(e) => setPreco(e.target.value)}
                   />
                </label>
-               <input type="submit" value="Criar" />
+               {!loading && <input type="submit" value="Criar" />}
+               {loading && <input type="submit" disabled value="Aguarde" />}
             </form>
          </div>
       </main>
