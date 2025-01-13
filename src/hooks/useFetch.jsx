@@ -15,11 +15,14 @@ export const useFetch = (url) => {
    //callFetch -> sera responsavel por ser mapeado, sempre que eu altera-lo, vou chamar o Fetch novamente para poder trazer os dados de novo.
    const [callFetch, setCallFetch] = useState(false);
 
-   {/* 6 - Loading */}
+   {/* 6 - Loading */ }
    const [loading, setLoading] = useState(false);
 
-   {/* 7 - Error */}
+   {/* 7 - Error */ }
    const [error, setError] = useState(null);
+
+   {/* 8 - Desafio (6) */ }
+   const [itemID, setItemID] = useState(null);
 
    //Fazendo a configuração do metodo POST automaticamente, para não precisar ficar passando toda vez que for fazer um POST.
    const httpConfig = (data, method) => {
@@ -33,6 +36,16 @@ export const useFetch = (url) => {
          });
 
          setMethod(method);
+      } else if (method === "DELETE") {
+         setConfig({
+            method,
+            headers: {
+               "Content-Type": "application/json",
+            },
+         });
+
+         setMethod(method);
+         setItemID(data);
       }
    }
 
@@ -60,15 +73,23 @@ export const useFetch = (url) => {
    {/* 5 - refatorando o POST */ }
    useEffect(() => {
       const httpRequest = async () => {
+         let json
+
          if (method === "POST") {
             let fetchOptions = [url, config];
 
             const res = await fetch(...fetchOptions);
 
-            const json = await res.json();
+            json = await res.json();
+         } else if (method === "DELETE") {
+            const deleteUrl = `${url}/${itemID}`;
 
-            setCallFetch(json)
+            const res = await fetch(deleteUrl, config);
+
+            json = await res.json();
          }
+
+         setCallFetch(json);
       }
 
       httpRequest();

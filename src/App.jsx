@@ -64,6 +64,11 @@ function App() {
       setPreco("");
    };
 
+   // 8 - Desafio (6)
+   const handleRemove = (id) => {
+      httpConfig(id, "DELETE");
+   }
+
    return (
       <main className="App">
          <h1>Lista de produtos</h1>
@@ -77,6 +82,11 @@ function App() {
                {itens && itens.map((produto) => (
                   <li key={produto.id}>
                      {produto.nome} - R$ {produto.preco}
+                     <button
+                        onClick={() => handleRemove(produto.id)}
+                     >
+                        Excluir
+                     </button>
                   </li>
                ))}
             </ul>
